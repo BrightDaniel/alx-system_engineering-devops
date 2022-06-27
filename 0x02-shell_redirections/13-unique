@@ -1,2 +1,2 @@
 #!/bin/bash
-sort | java -j
+sort | uniq -u
