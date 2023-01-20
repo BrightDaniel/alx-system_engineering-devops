@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Installs Nginx with the following configurations:
+#+    Listens on port 80.
+
+sudo apt-get update
+sudo apt-get install -y nginx
+
+mkdir /etc/nginx/html
+echo "Hello World" > /etc/nginx/html/index.html
+echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
+
+printf %s "server {
+    listen 80;
+    listen [::]:80 default_server;
+    root   /etc/nginx/html;
+    index  index.html index.htm;
+location /redirect_me {
+        return 301 http://www.youtube.com/;
+    }
+    error_page 404 /404.html;
+    location /404 {
+      root /etc/nginx/html;
+      internal;
+    }
+}" > /etc/nginx/sites-enabled/default
+
+sudo service nginx restart
