@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Generating SSH key-pairs according to Task requirements
+
+ssh-keygen -t rsa -b 4096 -P betty -f school
