@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Installs, configures, and starts the server
+# Imanol Asolo
+sudo apt-get update
+sudo apt-get install -y nginx
+sudo chown -R ubuntu /var/www
+echo "Hello World" > /var/www/html/index.nginx-debian.html
+sudo service nginx start
