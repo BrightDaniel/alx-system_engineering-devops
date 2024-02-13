@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-# Server lb-01 login commands
+# Configures ufw firewall to block all incoming traffic
+#+ except for TCP ports 22, 443 and 80
 
-#setting up the SSH-agent
-eval $("ssh-agent")
-
-# Path to Identity File
-ssh-add ~/.ssh/school
-
-# Username and IP Address
-ssh ubuntu@18.210.18.127
+sudo apt install ufw
+sudo ufw default allow outgoing
+sudo ufw default deny incoming
+sudo ufw allow 22/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 80/tcp
+sudo ufw enable
+sudo ufw disable
