@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# script that accepts one argument and runs whoami command under the user passed as an argument
+
+if [ $# -lt 1 ]
+then
+        echo "Usage ./0-iamsomeoneelse user";
+else
+        sudo -u "$1" whoami
+fi

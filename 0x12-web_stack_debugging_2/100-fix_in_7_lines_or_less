@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#  task #1 fix short and sweet.
+chown nginx:nginx /etc/nginx
+chmod 644 /etc/nginx/nginx.conf
+sed -i 's/\(listen \(\[::]:\)\?\)80/\18080/g' /etc/nginx/sites-enabled/default
+pkill apache2
+sudo -u nginx service nginx restart
