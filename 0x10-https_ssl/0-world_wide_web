@@ -1,26 +1,18 @@
 #!/usr/bin/env bash
-# Bash script that will display information about subdomains.
-function domain_check {
-	domain_names=("www" "lb-01" "web-01" "web-02")
+# Script that will display information about subdomains
 
-	for i in "${domain_names[@]}";
-	do
-		dig "${i}"."$1" | grep -A1 'ANSWER SECTION:' | \
-		awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$i"
-	done
+DNS_info () {
+    ANSWER=$(dig $2 | grep -A1 'ANSWER SECTION:' | awk 'NR==2 {print $0}')
+    echo "The subdomain $1 is a $(echo $ANSWER | awk '{print $4}') record and points to $(echo $ANSWER | awk '{print $5}')"
 }
 
-function subdomain_check {
-	dig "${2}"."$1" | grep -A1 'ANSWER SECTION:' | \
-	awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$2"
-}
-
-if [ $# -lt 1 ]
-then
-	echo "*** Provide domain name ***"
-elif [ $# -eq 1 ]
-then
-	domain_check "$1";
+if [[ $# == 1 ]]; then
+    subdomains=('www' 'lb-01' 'web-01' 'web-02')
+    for i in "${subdomains[@]}"; do
+	CONCAT="$i.$1"
+	DNS_info $i $CONCAT
+    done
 else
-	subdomain_check "$1" "$2";
+    CONCAT="$2.$1"
+    DNS_info $2 $CONCAT
 fi
